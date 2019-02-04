@@ -201,7 +201,7 @@ function buildColumnHeaders(dataColumns, exampleData) {
 			
 		}
 		else{
-			newHeaderNode.setAttribute('data-type', 'string');
+			newHeaderNode.setAttribute('data-type', 'number');
 			//grab a template for the numberMenu and clone and unwrap it
 			let numberMenu = document.querySelector('#numberMenu');
 			let newNumberMenuFragment = document.importNode(numberMenu.content, true);
