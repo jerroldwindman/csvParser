@@ -1,0 +1,140 @@
+<!doctype html>
+
+<html>
+	<head>
+	
+	<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+  
+  
+  
+<!--<link rel="stylesheet" 
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+  <link rel="stylesheet" href="stylesheet.css">
+	</head>
+	
+	<body>
+		<div id='statsContainer'></div>
+		
+		<div id='fileInput'>
+		<input id='csv' type='file' accept='.csv'>
+		<p>Choose your .csv file and then hit submit!
+		</p>
+		
+		<button id='sub'>Submit</button>
+		</div>
+		
+		<div id='tableOfCurrentRowNum'>
+		</div>
+		<div id='tableOfOriginalRowNum'>
+		</div>
+		<div id='tableWrapper'>
+		<table id='data'></table>
+		</div>
+		
+		<!-------------------------------------
+		---------------------------------------
+		--------------TEMPLATES----------------
+		---------------------------------------
+		-------------------------------------->
+		
+		
+		<template id='headerNode'>
+			<th>
+				<button class='columnHead'></button>
+			</th>
+		</template>
+		
+		<template id='stringMenu'>
+			<div class='menu mainMenu stringMenu' data-colnum=''>
+				<div class='option sortOption'>Sort A-Z</div>
+				<div class='option sortOption'>Sort Z-A</div>
+				<div class='option filterOption'>Filter
+					<div class='filterMenu'>
+						<div class='activeFilters'>
+							<div class='filter'>
+								<input class='stringFilter'>
+							</div>
+							<input class='caseSensitive' type='checkbox'>Case Sensitive
+						
+						</div>
+						
+						<div id='filterAddandRemove'>
+							<div class='option filterOptions filterAdd'>Add..</div>
+							<div class='option filterOptions filterRemove'>Remove..</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</template>
+		
+		<template id='numberMenu'>
+			<div class='menu mainMenu numberMenu' data-colnum=''>
+				<div class='option sortOption'>Sort Low to High</div>
+				<div class='option sortOption'>Sort High to Low</div>
+				<div class='option filterOption'>Filter
+					<div class='filterMenu'>
+						<div class='activeFilters'>
+							<div class='filter' data-colnum='' data-type=''>
+								<select>
+									<option value='<'><</option>
+									<option value='>'>></option>
+									<option value='<='><=</option>
+									<option value='>='>>=</option>
+									<option value='=='>=</option>
+								</select>
+								
+								<input class='numberFilter'>
+							</div>
+						</div>
+						<div id='filterAddandRemove'>
+							<div class='option filterOptions filterAdd'>Add..</div>
+							<div class='option filterOptions filterRemove'>Remove..</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</template>
+		
+		
+		<script type='text/javascript' src='script.js'></script>
+	</body>
+
+	<template id='numberFilter'>
+		<select>
+			<option value='<'><</option>
+			<option value='>'>></option>
+			<option value='<='><=</option>
+			<option value='>='>>=</option>
+			<option value='=='>=</option>
+		</select>
+								
+		<input class='numberFilter'>	
+	</template>
+	
+	
+	<template id='stringStats'>
+		<div class='statsMenu stringStatsMenu'>
+			<div class='displayActiveFilters'>Active Filters: </div>
+			<div class='stat count'></div>
+			<div class='stat first'></div>
+			<div class='stat last'></div>
+			<div class='stat firstAZ'></div>
+			<div class='stat lastAZ'></div>
+		</div>
+	</template>
+	
+	<template id='numStats'>
+		<div class='statsMenu numStatsMenu'>
+			<div class='displayActiveFilters'>Active Filters: </div>
+			<div class='stat count'></div>
+			<div class='stat sum'></div>
+			<div class='stat mean'></div>
+			<div class='stat median'></div>
+			<div class='stat range'></div>
+		</div>
+	</template>
+
+</html>
