@@ -1,9 +1,5 @@
 # csvParser
 
-
-To begin, make sure the localhostpath in the first function of script.js is set to the path where the CSV file is located on 
-the computer.
-
 The system is intended for sorting and filtering large datasets contained within CSV files. Trying to parse files with other extensions
 may result in unknown and potentially catastrophic consequences.
 
