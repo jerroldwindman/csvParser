@@ -33,7 +33,7 @@ function clearPrevious(){
 	//tableWrapper is the container for the data table itself
 	let tableWrapper = document.querySelector('#tableWrapper');
 	while(tableWrapper.hasChildNodes()){
-		document.querySelector('#tableWrapper').removeChild(document.querySelector('#tableWrapper').childNodes[0]);
+		tableWrapper.removeChild(tableWrapper.childNodes[0]);
 	}
 	
 	//currentRowNumDiv and OriginlRowNumDiv are the containers for the rowNumbers
@@ -435,7 +435,7 @@ function recognizeFilters(table){
 				let currInput = filters[j].querySelector('input').value;
 				//if the filter is not empty, add it to the string representation of the filters
 				if(currInput !== ''){
-					activeFiltersString += `"${currInput}"`
+					activeFiltersString += ` "${currInput}" `
 				}
 			}
 			//add the string representation of the filters to this columnHead's statsMenu
@@ -755,8 +755,12 @@ then check that rr comes at a later index than j
 function wildcardFiltering(inputVal, datum){
 	for(let i = 0, j = 1; j < inputVal.length; i++, j++){
 		if(datum.includes(inputVal[i]) && datum.includes(inputVal[j]) 
-			&& (datum.indexOf(inputVal[i])+inputVal[i].length) < datum.indexOf(inputVal[j])+1){
+			&& (datum.indexOf(inputVal[i])+(inputVal[i].length-1)) < datum.indexOf(inputVal[j])+1){
 				
+		}
+		else if((inputVal[i] === '' && inputVal[j] === '')||(datum.includes(inputVal[i]) && inputVal[j] == '')
+			|| (datum.includes(inputVal[j]) && inputVal[i] == '')){
+			
 		}
 		else{
 			return false;
