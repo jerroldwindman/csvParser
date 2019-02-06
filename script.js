@@ -14,19 +14,15 @@ we are loading a new set of data
 3. Calls the handleData function after the request is made for the data in the document
 
 */
-$('#sub').click(function(event){
+$('#csv').on('change', function(){
 	clearPrevious();
-	let localHostPath = `http://localhost:8000/Documents/GG%20Interview%20Project/`;
-	let documentName = document.querySelector('#csv').value;
-	documentName = documentName.slice(12, 25);
-	let URL = `${localHostPath}${documentName}`
-	$.get(
-		URL,
-		handleData
-	);
 	
+	let str1 = '';
+	//let a = '';
+	let fr = new FileReader();
+	fr.onload = (function(str){return function(e) {str = e.target.result;handleData(str);};})(str1)
+	fr.readAsText($('#csv')[0].files[0]);
 	
-	event.preventDefault();
 });
 
 /**
@@ -71,77 +67,66 @@ Manipulates the data contained in the result string and calls various handler fu
 placing data in the table and setting up the row numbers
 
 */
-function handleData(data, result){
-	if(result == 'success'){
-		
-		//creates table and adds it to container
-		let dataTable = document.createElement('table');
-		dataTable.setAttribute('id', 'data');
-		document.querySelector('#tableWrapper').appendChild(dataTable);
-		
-		
-		//splits the string data along the '\n' character so that each
-		//array location contains the next row in the CSV file
-		let rowSplitArray = data.split('\n')
-		
-		//splits the first row of data (column headers) and the second row of data
-		//(used for example) along the ',' so that each variable contains
-		//an array of data values
-		let dataColumnHeaders = rowSplitArray[0].split(',');
-		let exampleData = rowSplitArray[1].split(',');
-		
-		
-		let headers = buildColumnHeaders(dataColumnHeaders, exampleData);
-		
-		//splits each row of data along the ',' so that each array location
-		//in dataSplitArray contains an array of the row data for that row
-		let dataSplitArray = [];
-		for(let i = 1; i < rowSplitArray.length; i++){
-			dataSplitArray[i] = rowSplitArray[i].split(',');
-		}
-		
-		//Always a '\n' character at the end of file which created one extra empty row
-		dataSplitArray.pop();
-		
-		let finalTable = buildRows(dataSplitArray, headers);
-		
-		//create two tables for the row numbers (original and current)
-		let currentRowNumTable = document.createElement('table');
-		let originalRowNumTable = document.createElement('table');
-		
-		currentRowNumTable.setAttribute('id', 'rowNumArray');
-		
-		//goes through the data and for each row creates two new
-		//table rows, one for each rowNum container and appends them
-		//to the table
-		for(let i = 1; i < dataTable.children.length; i++){
-				let temp1 = document.createElement('tr');
-				let temp2 = document.createElement('tr');
-				temp2.innerText = finalTable.childNodes[i].dataset.originalrownum;
-				temp1.setAttribute('class', 'rowNum');
-				temp2.setAttribute('class', 'originalRowNum');
-				currentRowNumTable.appendChild(temp1);
-				originalRowNumTable.appendChild(temp2);
-		}
-		
-		let currentRowNumDiv = document.querySelector('#tableOfCurrentRowNum');
-		let originalRowNumDiv = document.querySelector('#tableOfOriginalRowNum');
-		
-		//append the tables to the divs
-		currentRowNumDiv.appendChild(currentRowNumTable);
-		originalRowNumDiv.appendChild(originalRowNumTable);
-		
-		//setUpEventListeners for making application interactive
-		setUpEventListeners();
-		
+function handleData(a){
+	//creates table and adds it to container
+	let dataTable = document.createElement('table');
+	dataTable.setAttribute('id', 'data');
+	document.querySelector('#tableWrapper').appendChild(dataTable);
+	
+	
+	//splits the string data along the '\n' character so that each
+	//array location contains the next row in the CSV file
+	let rowSplitArray = a.split('\n')
+	
+	//splits the first row of data (column headers) and the second row of data
+	//(used for example) along the ',' so that each variable contains
+	//an array of data values
+	let dataColumnHeaders = rowSplitArray[0].split(',');
+	let exampleData = rowSplitArray[1].split(',');
+	
+	
+	let headers = buildColumnHeaders(dataColumnHeaders, exampleData);
+	
+	//splits each row of data along the ',' so that each array location
+	//in dataSplitArray contains an array of the row data for that row
+	let dataSplitArray = [];
+	for(let i = 1; i < rowSplitArray.length; i++){
+		dataSplitArray[i] = rowSplitArray[i].split(',');
 	}
-	else{
-		//if the AJAX call returned false for success, we notify
-		//the user someting went wrong
-		alert('Something went wrong!');
-		console.log(data);
-		console.log(result);
+	
+	//Always a '\n' character at the end of file which created one extra empty row
+	dataSplitArray.pop();
+	
+	let finalTable = buildRows(dataSplitArray, headers);
+	
+	//create two tables for the row numbers (original and current)
+	let currentRowNumTable = document.createElement('table');
+	let originalRowNumTable = document.createElement('table');
+	
+	currentRowNumTable.setAttribute('id', 'rowNumArray');
+	
+	//goes through the data and for each row creates two new
+	//table rows, one for each rowNum container and appends them
+	//to the table
+	for(let i = 1; i < dataTable.children.length; i++){
+			let temp1 = document.createElement('tr');
+			let temp2 = document.createElement('tr');
+			temp2.innerText = finalTable.childNodes[i].dataset.originalrownum;
+			temp1.setAttribute('class', 'rowNum');
+			temp2.setAttribute('class', 'originalRowNum');
+			currentRowNumTable.appendChild(temp1);
+			originalRowNumTable.appendChild(temp2);
 	}
+	
+	let currentRowNumDiv = document.querySelector('#tableOfCurrentRowNum');
+	let originalRowNumDiv = document.querySelector('#tableOfOriginalRowNum');
+	
+	//append the tables to the divs
+	currentRowNumDiv.appendChild(currentRowNumTable);
+	originalRowNumDiv.appendChild(originalRowNumTable);
+	
+	//setUpEventListeners for making application interactive
+	setUpEventListeners();
 }
 
 /**
